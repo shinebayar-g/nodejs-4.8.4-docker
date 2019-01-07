@@ -17,7 +17,7 @@ RUN buildDeps='xz-utils' \
       *) echo "unsupported architecture"; exit 1 ;; \
     esac \
     && set -ex \
-    && apt-get update && apt-get install -y git g++ build-essential python ca-certificates curl wget gnupg dirmngr $buildDeps --no-install-recommends \
+    && apt-get update && apt-get install -y ca-certificates curl wget gnupg dirmngr $buildDeps --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && for key in \
       94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
@@ -44,5 +44,8 @@ RUN buildDeps='xz-utils' \
     && rm "node-v$NODE_VERSION-linux-$ARCH.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
     && apt-get purge -y --auto-remove $buildDeps \
     && ln -s /usr/local/bin/node /usr/local/bin/nodejs
+RUN apt-get update && apt-get install -y \
+    git build-essential python && \
+    rm -rf /var/lib/apt/lists/*
 
 CMD [ "node" ]
